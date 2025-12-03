@@ -23,7 +23,8 @@ app.post("/zpl-pdf", async (req, res) => {
     for (const id of id_bombas) {
       let bomba=id-1;
       let cod = `000000${bomba}`;
-      let cod2=cod.slice(-6)
+      let cod2=cod.slice(-6);
+      let tipo=tipo[0];
        
       // Generar tipo, potencia y caudal en el servidor
       const tipo_motor = tipo.startsWith("Bomba 0,75HP") ? "0,75HP" : "0,50HP";
