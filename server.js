@@ -21,11 +21,12 @@ app.post("/zpl-pdf", async (req, res) => {
     const pdfDoc = await PDFDocument.create();
      
     for (const id of id_bombas) {
+       
       // Generar tipo, potencia y caudal en el servidor
       const tipo_motor = tipo.startsWith("Bomba 0,75HP") ? "0,75HP" : "0,50HP";
       const potencia = tipo.startsWith("Bomba 0,75HP") ? "120 watts" : "109 watts";
       const caudal = tipo.startsWith("Bomba 0,75HP") ? "12 m3/h" : "8 m3/h";
-
+      const numero = id.slice(-6);
 
       // Generar ZPL dinámico
       const zpl = `
@@ -59,7 +60,7 @@ app.post("/zpl-pdf", async (req, res) => {
 ^FO9,295^GB278,0,2^FS
 ^FT255,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDBomba Autocebante\\^FS^CI27
 ^FT224,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDN°:\\^FS^CI27
-^FT156,62^A0R,50,63^FH\\^CI28^FD${cod2}^FS^CI27
+^FT156,62^A0R,50,63^FH\\^CI28^FD${numero}^FS^CI27
 ^FT45,573^BQN,2,10
 ^FH\\^FDLA,${id}^FS
 ^LRY^FO143,57^GB0,189,59^FS
