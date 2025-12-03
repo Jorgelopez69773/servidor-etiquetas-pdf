@@ -13,20 +13,24 @@ app.use(cors());
 ============================ */
 app.post("/zpl-pdf", async (req, res) => {
   try {
-    const { motores } = req.body;
-    if (!motores || motores.length === 0) {
+    const { id_bombas,tipo } = req.body;
+    if (!id_bombas || id_bombas.length === 0) {
       return res.status(400).json({ error: "No se enviaron motores" });
     }
 
     const pdfDoc = await PDFDocument.create();
-
-    for (const motor of motores) {
-      const { Numero_Serie, ID_Motor} = motor;
-
+     
+    for (const id of id_bombas) {
+      let bomba=id-1;
+      let cod = `000000${bomba}`;
+      let cod2=cod.slice(-6)
+       
       // Generar tipo, potencia y caudal en el servidor
-      const tipo = ID_Motor.startsWith("EB075") ? "0,75HP" : "0,50HP";
-      const potencia = ID_Motor.startsWith("EB075") ? "120 watts" : "109 watts";
-      const caudal = ID_Motor.startsWith("EB075") ? "12 m3/h" : "8 m3/h";
+      const tipo_motor = tipo.startsWith("Bomba 0,75HP") ? "0,75HP" : "0,50HP";
+      const potencia = tipo.startsWith("Bomba 0,75HP") ? "120 watts" : "109 watts";
+      const caudal = tipo.startsWith("Bomba 0,75HP") ? "12 m3/h" : "8 m3/h";
+      const codigo = tipo.startsWith("Bomba 0,75HP") ? `EB075-${cod2}` : `EB050-${cod2}`;
+
 
       // Generar ZPL dinámico
       const zpl = `
@@ -54,15 +58,15 @@ app.post("/zpl-pdf", async (req, res) => {
 ^LS0
 ^FO9,11^GB278,568,2^FS
 ^FO123,14^GB0,284,2^FS
-^FT88,36^A0R,25,15^FH\\^CI28^FDProducto:Bomba Autocebante ${tipo}^FS^CI27
+^FT88,36^A0R,25,15^FH\\^CI28^FDProducto:Bomba Autocebante ${tipo_motor}^FS^CI27
 ^FT57,36^A0R,25,15^FH\\^CI28^FDPotencia:${potencia}^FS^CI27
 ^FT26,36^A0R,25,15^FH\\^CI28^FDCaudal:${caudal}^FS^CI27
 ^FO9,295^GB278,0,2^FS
 ^FT255,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDBomba Autocebante\\^FS^CI27
 ^FT224,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDN°:\\^FS^CI27
-^FT156,62^A0R,50,63^FH\\^CI28^FD${Numero_Serie}^FS^CI27
+^FT156,62^A0R,50,63^FH\\^CI28^FD${cod2}^FS^CI27
 ^FT45,573^BQN,2,10
-^FH\\^FDLA,${ID_Motor}^FS
+^FH\\^FDLA,${codigo}^FS
 ^LRY^FO143,57^GB0,189,59^FS
 ^LRN
 ^PQ1,,,Y
