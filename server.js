@@ -19,7 +19,7 @@ app.post("/zpl-pdf", async (req, res) => {
     }
 
     const pdfDoc = await PDFDocument.create();
-    id_bombas=id_bombas.split(",")
+    id_bombas=id_bombas.split(",");
     for (const id of id_bombas) {
        
       // Generar tipo, potencia y caudal en el servidor
