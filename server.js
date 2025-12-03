@@ -21,7 +21,12 @@ app.post("/zpl-pdf", async (req, res) => {
     const pdfDoc = await PDFDocument.create();
 
     for (const motor of motores) {
-      const { numero, codigo, tipo, potencia, caudal } = motor;
+      const { numero, codigo} = motor;
+
+      // Generar tipo, potencia y caudal en el servidor
+      const tipo = codigo.startsWith("EB075") ? "0,75HP" : "0,50HP";
+      const potencia = codigo.startsWith("EB075") ? "120 watts" : "109 watts";
+      const caudal = codigo.startsWith("EB075") ? "12 m3/h" : "8 m3/h";
 
       // Generar ZPL dinámico
       const zpl = `
