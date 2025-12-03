@@ -1,0 +1,16 @@
+{
+  "name": "servidor-etiquetas-pdf",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^3.4.1",
+    "pdf-lib": "^1.17.1"
+  }
+}
