@@ -13,7 +13,7 @@ app.use(cors());
 ============================ */
 app.post("/zpl-pdf", async (req, res) => {
   try {
-    const { id_bombas,tipo } = req.body;
+    let { id_bombas,tipo } = req.body;
     if (!id_bombas || id_bombas.length === 0) {
       return res.status(400).json({ error: "No se enviaron motores" });
     }
