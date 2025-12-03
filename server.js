@@ -31,17 +31,47 @@ app.post("/zpl-pdf", async (req, res) => {
       // Generar ZPL dinámico
       const zpl = `
 ^XA
-^FO50,50^A0N,50,50^FDMotor: ${tipo}^FS
-^FO50,120^A0N,50,50^FDNumero: ${Numero_Serie}^FS
-^FO50,190^A0N,50,50^FDCodigo: ${ID_Motor}^FS
-^FO50,260^A0N,50,50^FDPotencia: ${potencia}^FS
-^FO50,330^A0N,50,50^FDCaudal: ${caudal}^FS
+~TA000
+~JSN
+^LT0
+^MNW
+^MTT
+^PON
+^PMN
+^LH0,0
+^JMA
+^PR5,5
+~SD10
+^JUS
+^LRN
+^CI27
+^PA0,1,1,0
+^XZ
+^XA
+^MMT
+^PW295
+^LL591
+^LS0
+^FO9,11^GB278,568,2^FS
+^FO123,14^GB0,284,2^FS
+^FT88,36^A0R,25,15^FH\\^CI28^FDProducto:Bomba Autocebante ${tipo}^FS^CI27
+^FT57,36^A0R,25,15^FH\\^CI28^FDPotencia:${potencia}^FS^CI27
+^FT26,36^A0R,25,15^FH\\^CI28^FDCaudal:${caudal}^FS^CI27
+^FO9,295^GB278,0,2^FS
+^FT255,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDBomba Autocebante\\^FS^CI27
+^FT224,0^A0R,25,25^FB297,1,6,C^FH\\^CI28^FDN°:\\^FS^CI27
+^FT156,62^A0R,50,63^FH\\^CI28^FD${Numero_Serie}^FS^CI27
+^FT45,573^BQN,2,10
+^FH\\^FDLA,${ID_Motor}^FS
+^LRY^FO143,57^GB0,189,59^FS
+^LRN
+^PQ1,,,Y
 ^XZ
       `;
 
       // Convertir ZPL a PNG usando Labelary
       const labelary = await fetch(
-        "http://api.labelary.com/v1/printers/8dpmm/labels/4x6/0/",
+        "http://api.labelary.com/v1/printers/12dpmm/labels/0.984252x1.9685/0/",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
