@@ -21,19 +21,19 @@ app.post("/zpl-pdf", async (req, res) => {
     const pdfDoc = await PDFDocument.create();
 
     for (const motor of motores) {
-      const { numero, codigo} = motor;
+      const { Numero_Serie, ID_Motor} = motor;
 
       // Generar tipo, potencia y caudal en el servidor
-      const tipo = codigo.startsWith("EB075") ? "0,75HP" : "0,50HP";
-      const potencia = codigo.startsWith("EB075") ? "120 watts" : "109 watts";
-      const caudal = codigo.startsWith("EB075") ? "12 m3/h" : "8 m3/h";
+      const tipo = ID_Motor.startsWith("EB075") ? "0,75HP" : "0,50HP";
+      const potencia = ID_Motor.startsWith("EB075") ? "120 watts" : "109 watts";
+      const caudal = ID_Motor.startsWith("EB075") ? "12 m3/h" : "8 m3/h";
 
       // Generar ZPL dinámico
       const zpl = `
 ^XA
 ^FO50,50^A0N,50,50^FDMotor: ${tipo}^FS
-^FO50,120^A0N,50,50^FDNumero: ${numero}^FS
-^FO50,190^A0N,50,50^FDCodigo: ${codigo}^FS
+^FO50,120^A0N,50,50^FDNumero: ${Numero_Serie}^FS
+^FO50,190^A0N,50,50^FDCodigo: ${ID_Motor}^FS
 ^FO50,260^A0N,50,50^FDPotencia: ${potencia}^FS
 ^FO50,330^A0N,50,50^FDCaudal: ${caudal}^FS
 ^XZ
